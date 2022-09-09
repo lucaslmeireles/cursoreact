@@ -20,9 +20,14 @@ describe('<Button/>', () => {
         expect(fn).toHaveBeenCalledTimes(1)
     })
     it('should not call function when button disable', () => {
-        render(<Button text={'load more posts'} disabled={true} />)
+        render(<Button text={'load more posts'} disabled={false} />)
         const button = screen.getByRole('button', { name: /load more posts/ })
-        expect(button).toBeDisabled()
+        expect(button).toBeEnabled()
+    })
+    it('should match snapshot', ()=>{
+        const fn = jest.fn()
+        const {container} = render(<Button onClick={fn} disabled={false} text='Load more posts'/>)
+        expect(container.firstChild).toMatchSnapshot()
     })
 
 })

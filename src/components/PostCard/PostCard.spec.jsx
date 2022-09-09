@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import { PostCard } from '.'
 
-const mock = {
+const post = {
     title: 'Alguma',
     body: 'body1',
     id: 1,
@@ -10,7 +10,13 @@ const mock = {
 
 describe('<PostCard/>', () => {
     it('should render PostCard correctly', () => {
-        render(<PostCard {...mock} />)
+        render(<PostCard post={post} />)
         expect(screen.getByRole('img')).toBeInTheDocument()
+        expect(screen.getByRole('heading')).toBeInTheDocument()
+        expect(screen.getByText('body1')).toBeInTheDocument()
+    })
+    it('should match snapshot', ()=>{
+        const {container} = render(<PostCard post={post}/>)
+        expect(container.firstChild).toMatchSnapshot()
     })
 })
