@@ -1,34 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-
 import React, { Component } from "react";
 
+
+const Button = React.memo(function ({incrementButton}){
+  return <button onClick={() => incrementButton(10)}>+</button>
+})
 function App() {
   const [count, setCount] = useState(0);
-  //Component did update
-  useEffect(() => {
-    console.log("Component did update");
-  });
-  //Component did monunt
-  useEffect(() => {
-    console.log("Component did mount");
-  }, []);
-  //Component will update
-  useEffect(() => {
-    console.log("Contador mudou");
-  }, [count]);
-  //Component will unmount
-  useEffect(() => {
-    console.log("Contador mudou");
-    return () => {
-      setCount(0);
-    };
-  }, []);
+  const incrementCounter = useCallback((num = 1) =>{
+    setCount((c) => c + num)
+  },[])
   return (
     <div>
       <p> Counter : {count}</p>
-      <button onClick={() => setCount(count + 1)}>+1</button>
+      <Button incrementButton={incrementCounter}/>
     </div>
   );
 }
